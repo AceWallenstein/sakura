@@ -17,7 +17,8 @@
         <activity android:name=".ui.activity.MainActivity">
 
         </activity>
-        <activity android:name=".ui.activity.HomeActivity">
+        <activity android:name=".ui.activity.HomeActivity"
+            android:screenOrientation="sensor" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

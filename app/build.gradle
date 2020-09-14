@@ -15,6 +15,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "Boolean", "APP_ISDEBUG", "${isDebug}"
+
+        }
+        debug{
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "Boolean", "APP_ISDEBUG", "${isDebug}"
+
         }
     }
 

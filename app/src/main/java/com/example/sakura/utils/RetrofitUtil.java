@@ -1,5 +1,6 @@
 package com.example.sakura.utils;
 
+import com.example.sakura.BuildConfig;
 import com.google.gson.Gson;
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
@@ -36,8 +37,10 @@ public class RetrofitUtil {
         OkHttpClient.Builder builder = new OkHttpClient().newBuilder()
                 .connectTimeout(10, TimeUnit.SECONDS)//设置超时时间
                 .readTimeout(10, TimeUnit.SECONDS)//设置读取超时时间
-                .writeTimeout(10, TimeUnit.SECONDS)//设置写入超时时间
-                .addInterceptor(new LoggingInterceptor());
+                .writeTimeout(10, TimeUnit.SECONDS);//设置写入超时时间
+        if(BuildConfig.APP_ISDEBUG){
+            builder.addInterceptor(new LoggingInterceptor());
+        }
         OkHttpClient mOkHttpClient = builder.build();
         return mOkHttpClient;
     }

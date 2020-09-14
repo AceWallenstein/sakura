@@ -28,7 +28,9 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
     private CustomVideoView mVvPlayer;
     private RecyclerView mRvDir;
     private PlayDirAdapter adapter;
-
+    private int mHeight;
+    private int mWidth;
+    private RelativeLayout.LayoutParams layoutParams;
 
 
     @Override
@@ -48,7 +50,16 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
         MediaController mediaController = new MediaController(this);
         mVvPlayer.setMediaController(mediaController);
         mediaController.setMediaPlayer(mVvPlayer);
+        saveVideoWH();
 
+    }
+
+    private void saveVideoWH() {
+        // 取控当前的布局参数
+        layoutParams = (RelativeLayout.LayoutParams) mVvPlayer
+                .getLayoutParams();
+        mHeight = layoutParams.height;
+        mWidth = layoutParams.height;
     }
 
     @Override
@@ -99,16 +110,24 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        //我布局中videoView的父控件是RelativeLayout所以使用RelativeLayout.LayoutParams
+
         if(newConfig.orientation == 2)// 横屏
         {
             setFullScreenPlay();
+        }else{
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            layoutParams.height = mHeight;//恢复控件的高强
+            layoutParams.width = mWidth;
+            mVvPlayer.setLayoutParams(layoutParams);
         }
 
     }
 
     private void setFullScreenPlay() {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//设置videoView全屏播放
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//设置videoView横屏播放
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//设置videoView横屏播放
         if(this.getSupportActionBar()!=null)
         {
             getSupportActionBar().hide();
@@ -118,10 +137,6 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
         android.view.Display display = wm.getDefaultDisplay();
         int height_01 = display.getHeight();
         int width_01 = display.getWidth();
-
-        //我布局中videoView的父控件是RelativeLayout所以使用RelativeLayout.LayoutParams
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mVvPlayer
-                .getLayoutParams(); // 取控当前的布局参数
         layoutParams.height = height_01;//设置 当控件的高强
         layoutParams.width = width_01;
         mVvPlayer.setLayoutParams(layoutParams); // 使设置好的布局参数应用到控件

@@ -1,9 +1,11 @@
 package com.example.sakura.utils;
 
+
+import com.example.sakura.BuildConfig;
 import com.orhanobut.logger.Logger;
 
 public class LoggerUtils {
-    public static boolean ISOPEN = true;
+    public static boolean ISOPEN = BuildConfig.APP_ISDEBUG;
 
     public static void v(String tag, String msg) {
         if (ISOPEN) {
