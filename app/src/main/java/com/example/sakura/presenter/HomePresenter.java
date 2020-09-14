@@ -2,7 +2,7 @@ package com.example.sakura.presenter;
 
 import com.example.sakura.base.BaseObserver;
 import com.example.sakura.base.BasePresenter;
-import com.example.sakura.bean.CategoryBean;
+import com.example.sakura.data.bean.CategoryBean;
 import com.example.sakura.contact.HomeContract;
 import com.example.sakura.server.ComicServer;
 import com.example.sakura.ui.fragment.HomeFragment;

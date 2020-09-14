@@ -1,4 +1,4 @@
-package com.example.sakura.bean;
+package com.example.sakura.data.bean;
 //动漫详情页目录
 public class ComicDir {
     private String num;

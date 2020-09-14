@@ -1,6 +1,6 @@
 package com.example.sakura.resp;
 
-import com.example.sakura.bean.ComicInfo;
+import com.example.sakura.data.bean.ComicInfo;
 
 import java.util.List;
 

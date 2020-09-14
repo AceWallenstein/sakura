@@ -1,9 +1,6 @@
 package com.example.sakura.contact;
 
-import com.example.sakura.bean.CategoryBean;
-import com.example.sakura.bean.ComicDetail;
-
-import java.util.List;
+import com.example.sakura.data.bean.ComicDetail;
 
 public interface ComicContract {
     interface V{

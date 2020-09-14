@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.example.sakura.base.BaseObserver;
 import com.example.sakura.base.BasePresenter;
-import com.example.sakura.bean.ComicDetail;
+import com.example.sakura.data.bean.ComicDetail;
 import com.example.sakura.contact.ComicContract;
 import com.example.sakura.server.ComicServer;
 import com.example.sakura.ui.activity.ComicActivity;

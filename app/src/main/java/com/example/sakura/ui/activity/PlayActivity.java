@@ -7,7 +7,6 @@ import android.view.WindowManager;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -17,9 +16,9 @@ import com.example.sakura.R;
 import com.example.sakura.adapter.PlayDirAdapter;
 import com.example.sakura.base.BaseAdapter;
 import com.example.sakura.base.BaseMvpActivity;
-import com.example.sakura.bean.ComicInfo;
 import com.example.sakura.common.Constant;
 import com.example.sakura.contact.PlayContract;
+import com.example.sakura.data.bean.ComicInfo;
 import com.example.sakura.presenter.PlayPresenter;
 import com.example.sakura.resp.ComicInfoResp;
 import com.example.sakura.widget.CustomVideoView;

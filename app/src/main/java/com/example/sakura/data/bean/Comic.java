@@ -1,4 +1,4 @@
-package com.example.sakura.bean;
+package com.example.sakura.data.bean;
 
 import androidx.annotation.NonNull;
 //栏目下动漫信息

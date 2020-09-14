@@ -12,8 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sakura.R;
 import com.example.sakura.base.BaseAdapter;
-import com.example.sakura.bean.ComicDir;
-import com.example.sakura.bean.ComicInfo;
+import com.example.sakura.data.bean.ComicInfo;
 
 public class PlayDirAdapter extends BaseAdapter<ComicInfo, PlayDirAdapter.VH> {
 

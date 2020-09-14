@@ -1,4 +1,4 @@
-package com.example.sakura.data.net;
+package com.example.sakura.net;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;

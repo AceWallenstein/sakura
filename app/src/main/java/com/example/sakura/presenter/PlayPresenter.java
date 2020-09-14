@@ -5,14 +5,10 @@ import android.util.Log;
 import com.example.sakura.base.BaseExcept;
 import com.example.sakura.base.BaseObserver;
 import com.example.sakura.base.BasePresenter;
-import com.example.sakura.bean.ComicInfo;
 import com.example.sakura.contact.PlayContract;
 import com.example.sakura.resp.ComicInfoResp;
 import com.example.sakura.server.ComicServer;
 import com.example.sakura.ui.activity.PlayActivity;
-
-import java.util.HashMap;
-import java.util.List;
 
 public class PlayPresenter extends BasePresenter<PlayActivity> implements PlayContract.P {
     private static final String TAG = "PlayPresenter";

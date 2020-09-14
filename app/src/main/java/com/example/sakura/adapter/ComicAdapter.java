@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.sakura.R;
 import com.example.sakura.base.BaseAdapter;
-import com.example.sakura.bean.Comic;
+import com.example.sakura.data.bean.Comic;
 
 public class ComicAdapter extends BaseAdapter<Comic, ComicAdapter.VH> {
 

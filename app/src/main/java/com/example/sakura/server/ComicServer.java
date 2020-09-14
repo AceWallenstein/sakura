@@ -4,11 +4,11 @@ import android.util.Log;
 
 import com.example.sakura.base.BaseExcept;
 import com.example.sakura.base.BaseObserver;
-import com.example.sakura.bean.CategoryBean;
-import com.example.sakura.bean.Comic;
-import com.example.sakura.bean.ComicDetail;
-import com.example.sakura.bean.ComicDir;
-import com.example.sakura.bean.ComicInfo;
+import com.example.sakura.data.bean.CategoryBean;
+import com.example.sakura.data.bean.Comic;
+import com.example.sakura.data.bean.ComicDetail;
+import com.example.sakura.data.bean.ComicDir;
+import com.example.sakura.data.bean.ComicInfo;
 import com.example.sakura.common.Constant;
 import com.example.sakura.resp.ComicInfoResp;
 

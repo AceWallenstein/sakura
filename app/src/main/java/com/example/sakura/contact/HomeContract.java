@@ -1,6 +1,6 @@
 package com.example.sakura.contact;
 
-import com.example.sakura.bean.CategoryBean;
+import com.example.sakura.data.bean.CategoryBean;
 
 import java.util.List;
 
