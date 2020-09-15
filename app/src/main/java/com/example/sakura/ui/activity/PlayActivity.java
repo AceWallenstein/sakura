@@ -1,6 +1,5 @@
 package com.example.sakura.ui.activity;
 
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.view.View;
 import android.view.WindowManager;
@@ -9,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,7 +20,7 @@ import com.example.sakura.common.Constant;
 import com.example.sakura.contact.PlayContract;
 import com.example.sakura.data.bean.ComicInfo;
 import com.example.sakura.presenter.PlayPresenter;
-import com.example.sakura.resp.ComicInfoResp;
+import com.example.sakura.data.resp.ComicInfoResp;
 import com.example.sakura.widget.CustomVideoView;
 
 public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements PlayContract.V {
@@ -28,9 +28,7 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
     private CustomVideoView mVvPlayer;
     private RecyclerView mRvDir;
     private PlayDirAdapter adapter;
-    private int mHeight;
-    private int mWidth;
-    private RelativeLayout.LayoutParams layoutParams;
+    private ConstraintLayout.LayoutParams layoutParams;
 
 
     @Override
@@ -43,37 +41,29 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
         mTvTitle = findViewById(R.id.tv_title);
         mVvPlayer = findViewById(R.id.vv_player);
         mRvDir = findViewById(R.id.rv_dir);
-        mRvDir.setLayoutManager(new GridLayoutManager(this,4));
+        mRvDir.setLayoutManager(new GridLayoutManager(this, 4));
         adapter = new PlayDirAdapter(this);
         mRvDir.setAdapter(adapter);
 
         MediaController mediaController = new MediaController(this);
         mVvPlayer.setMediaController(mediaController);
         mediaController.setMediaPlayer(mVvPlayer);
-        saveVideoWH();
 
-    }
 
-    private void saveVideoWH() {
-        // 取控当前的布局参数
-        layoutParams = (RelativeLayout.LayoutParams) mVvPlayer
-                .getLayoutParams();
-        mHeight = layoutParams.height;
-        mWidth = layoutParams.height;
     }
 
     @Override
     protected void initListener() {
-        mVvPlayer.setOnPreparedListener((mp)->mVvPlayer.start());
+        mVvPlayer.setOnPreparedListener((mp) -> mVvPlayer.start());
     }
 
     @Override
     protected void loadData() {
         super.loadData();
-        String num =  getIntent().getStringExtra(Constant.COMIC_NUM);
-        mTvTitle.setText(getIntent().getStringExtra(Constant.COMIC_TITLE)+"   "+
-              num );
-        mPresenter.getPlayInfo(getIntent().getStringExtra(Constant.PLAY_URL),num);
+        String num = getIntent().getStringExtra(Constant.COMIC_NUM);
+        mTvTitle.setText(getIntent().getStringExtra(Constant.COMIC_TITLE) + "   " +
+                num);
+        mPresenter.getPlayInfo(getIntent().getStringExtra(Constant.PLAY_URL), num);
     }
 
     @Override
@@ -111,16 +101,22 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         //我布局中videoView的父控件是RelativeLayout所以使用RelativeLayout.LayoutParams
-
-        if(newConfig.orientation == 2)// 横屏
+        layoutParams = (ConstraintLayout.LayoutParams) mVvPlayer.getLayoutParams();
+        if (newConfig.orientation == 2)// 横屏
         {
             setFullScreenPlay();
-        }else{
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        } else {
+//            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 //            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            layoutParams.height = mHeight;//恢复控件的高强
-            layoutParams.width = mWidth;
+            WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+            android.view.Display display = wm.getDefaultDisplay();
+            int width_01 = display.getWidth();
+            int height_01 = width_01*9/16;//视频比例。
+            layoutParams.width = width_01;
+            layoutParams.height = height_01;//恢复控件的高强
+            mTvTitle.setVisibility(View.VISIBLE);
             mVvPlayer.setLayoutParams(layoutParams);
+
         }
 
     }
@@ -128,8 +124,7 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
     private void setFullScreenPlay() {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);//设置videoView全屏播放
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//设置videoView横屏播放
-        if(this.getSupportActionBar()!=null)
-        {
+        if (this.getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
         //获取屏幕的宽高 height_01 ，width_01
@@ -140,5 +135,8 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
         layoutParams.height = height_01;//设置 当控件的高强
         layoutParams.width = width_01;
         mVvPlayer.setLayoutParams(layoutParams); // 使设置好的布局参数应用到控件
+        mTvTitle.postDelayed(()->{
+           mTvTitle.setVisibility(View.GONE);
+        },1000);
     }
 }

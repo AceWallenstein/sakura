@@ -17,13 +17,14 @@ public abstract class BaseMvpFragment<P extends BasePresenter> extends BaseFragm
     private boolean isLoaded;
 
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(layoutId(), container, false);
         mPresenter = createPresenter();
-        mPresenter.attachView(this);
+        if (mPresenter != null) {
+            mPresenter.attachView(this);
+        }
         init(view);
         isPrepare = true;
         return view;
@@ -37,23 +38,23 @@ public abstract class BaseMvpFragment<P extends BasePresenter> extends BaseFragm
         initListener();
     }
 
-    public void  lazyLoad(){
-        if(isVisible||isPrepare||!isLoaded)
+    public void lazyLoad() {
+        if (!isVisible || isPrepare || !isLoaded)
             return;
         onLazyLoad();
         isLoaded = true;
     }
 
-    public   void onLazyLoad(){
+    public void onLazyLoad() {
 
     }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(isVisibleToUser){
+        if (isVisibleToUser) {
             isVisible = true;
-        }else {
+        } else {
             isVisible = false;
         }
     }
@@ -61,7 +62,9 @@ public abstract class BaseMvpFragment<P extends BasePresenter> extends BaseFragm
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mPresenter.detachView(this);
+        if (mPresenter != null) {
+            mPresenter.detachView(this);
+        }
     }
 
     protected abstract int layoutId();

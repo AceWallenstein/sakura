@@ -5,40 +5,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-        <TextView
-            android:textStyle="bold"
-            android:layout_margin="2dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SAKURA"
-            android:textSize="22sp"
-            android:textColor="@color/dark_pink"/>
-        <EditText
-            android:id="@+id/search"
-            android:singleLine="true"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:hint="搜索你想要的"/>
-        <ImageView
-            android:id="@+id/setting"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/icon"/>
+    <include layout="@layout/header_bar_home" />
 
-    </LinearLayout>
-<FrameLayout
-    android:id="@+id/content"
+    <androidx.viewpager.widget.ViewPager
+    android:id="@+id/vp_content"
     android:layout_width="match_parent"
     android:layout_height="0dp"
     android:layout_weight="1"/>
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_bottom"
         android:background="@color/light_pink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

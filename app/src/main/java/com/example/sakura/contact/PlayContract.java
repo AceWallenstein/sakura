@@ -1,6 +1,6 @@
 package com.example.sakura.contact;
 
-import com.example.sakura.resp.ComicInfoResp;
+import com.example.sakura.data.resp.ComicInfoResp;
 
 public interface PlayContract {
     interface V{

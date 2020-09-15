@@ -3,7 +3,7 @@
     <item android:id="@+id/menu_homepage"
         android:icon="@drawable/selector_tab_home"
         android:title="主页" />
-    <item android:id="@+id/menu_type"
+    <item android:id="@+id/menu_ani"
         android:icon="@drawable/selector_tab_kind"
         android:title="番剧" />
     <item android:id="@+id/menu_bookshelf"

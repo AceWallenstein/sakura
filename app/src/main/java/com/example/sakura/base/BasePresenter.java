@@ -1,7 +1,7 @@
 package com.example.sakura.base;
 
 public abstract class BasePresenter<T> {
-
+    protected  final String TAG = getClass().getSimpleName();
 
     private T mView;
 

@@ -8,6 +8,17 @@ public class ComicDetail {
     private String title;
     private String imgUrl;
     private String desc;
+    //详情页面url
+    private String href;
+
+    public String getHref() {
+        return href;
+    }
+
+    public void setHref(String href) {
+        this.href = href;
+    }
+
     private List<ComicDir> dirs;
 
     public String getTitle() {
@@ -51,7 +62,8 @@ public class ComicDetail {
     @NonNull
     @Override
     public String toString() {
-        return "title"+ title+"**"+
+        return  "href"+ href+"**"+
+                "title"+ title+"**"+
                 "imgUrl"+ imgUrl+"**"+
                 "desc"+ desc+getDirs().toString();
 

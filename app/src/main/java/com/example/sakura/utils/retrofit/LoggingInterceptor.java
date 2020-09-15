@@ -1,4 +1,4 @@
-package com.example.sakura.utils;
+package com.example.sakura.utils.retrofit;
 
 import android.util.Log;
 

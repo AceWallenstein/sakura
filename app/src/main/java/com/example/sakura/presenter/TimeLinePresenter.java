@@ -3,19 +3,21 @@ package com.example.sakura.presenter;
 import com.example.sakura.base.BaseExcept;
 import com.example.sakura.base.BaseObserver;
 import com.example.sakura.base.BasePresenter;
-import com.example.sakura.contact.PlayContract;
+import com.example.sakura.data.bean.Comic;
 import com.example.sakura.data.resp.ComicInfoResp;
 import com.example.sakura.server.ComicServer;
-import com.example.sakura.ui.activity.PlayActivity;
+import com.example.sakura.ui.fragment.AnimeTimeLineFragment;
 import com.example.sakura.utils.LoggerUtils;
 
-public class PlayPresenter extends BasePresenter<PlayActivity> implements PlayContract.P {
-    private static final String TAG = "PlayPresenter";
+import java.util.List;
 
-    public void getPlayInfo(String url,String num) {
-        new ComicServer().getPlayInfo(url,num, new BaseObserver<ComicInfoResp>() {
+public class TimeLinePresenter extends BasePresenter<AnimeTimeLineFragment> {
+
+
+    public void getTimeLineInfo() {
+        new ComicServer().getTimeLineInfo( new BaseObserver<List<List<Comic>>>() {
             @Override
-            public void onNext(ComicInfoResp t) {
+            public void onNext(List<List<Comic>> t) {
                 super.onNext(t);
                 LoggerUtils.d(TAG, "onNext: "+t);
                 if (getView() != null) {
@@ -35,5 +37,4 @@ public class PlayPresenter extends BasePresenter<PlayActivity> implements PlayCo
 
 
     }
-
 }

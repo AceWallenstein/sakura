@@ -10,7 +10,7 @@ import com.example.sakura.data.bean.ComicDetail;
 import com.example.sakura.data.bean.ComicDir;
 import com.example.sakura.data.bean.ComicInfo;
 import com.example.sakura.common.Constant;
-import com.example.sakura.resp.ComicInfoResp;
+import com.example.sakura.data.resp.ComicInfoResp;
 
 import org.json.JSONArray;
 import org.jsoup.Connection;
@@ -35,6 +35,7 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
@@ -234,4 +235,40 @@ public class ComicServer {
 
     }
 
+    public void getTimeLineInfo(Observer<List<List<Comic>>> observer) {
+        Observable.create(new ObservableOnSubscribe<List<List<Comic>>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<List<Comic>>> emitter) throws Exception {
+                try {
+                    if (doc == null) {
+                        doc = getDoc(Constant.BASE_URL);
+                    }
+                    Element listEle = doc.select("div.tists").get(0);
+                    List<List<Comic>> comicUlist = new ArrayList<>();
+                    for (int i = 0; i < listEle.children().size(); i++) {
+                        //每周anime列表
+                        Element ulEle = listEle.children().get(i);
+                        List<Comic> comicList = new ArrayList<>();
+                        for (int j = 0; j < ulEle.children().size(); j++) {
+                            Element liEle = ulEle.children().get(j);
+                            String episode = liEle.child(0).child(0).text();
+                            String title = liEle.child(1).text();
+                            String url = liEle.child(1).attr("href");
+                            Comic comic = new Comic(title, url, episode);
+                            comicList.add(comic);
+                        }
+                        comicUlist.add(comicList);
+                        emitter.onNext(comicUlist);
+                    }
+                }catch(IOException e)
+                {
+                    e.printStackTrace();
+                    emitter.onError(e);
+                }
+            }
+        }).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io()).subscribe(observer);;
+
+
+    }
 }

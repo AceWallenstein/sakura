@@ -1,4 +1,4 @@
-package com.example.sakura.resp;
+package com.example.sakura.data.resp;
 
 import com.example.sakura.data.bean.ComicInfo;
 
