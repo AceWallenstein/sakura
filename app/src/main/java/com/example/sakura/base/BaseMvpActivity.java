@@ -1,12 +1,29 @@
 package com.example.sakura.base;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.GridView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.sakura.R;
+import com.example.sakura.adapter.PopAdapter;
+import com.example.sakura.data.resp.ComicInfoResp;
+import com.example.sakura.ui.activity.PlayActivity;
 
 public abstract class BaseMvpActivity<P extends BasePresenter> extends BaseActivity {
 
     protected P mPresenter;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,5 +70,7 @@ public abstract class BaseMvpActivity<P extends BasePresenter> extends BaseActiv
     }
 
     protected abstract P createPresenter();
+
+
 
 }

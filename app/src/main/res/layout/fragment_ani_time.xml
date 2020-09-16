@@ -12,11 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </com.google.android.material.tabs.TabLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:background="@color/light_pink"
-        android:id="@+id/rv_comic_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-     />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_comic_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/light_pink" />
 
 </LinearLayout>

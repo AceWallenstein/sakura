@@ -5,6 +5,18 @@ import androidx.annotation.NonNull;
 public class ComicInfo  {
     private String num;
     private String numUrl;
+    private boolean flag;
+
+    public boolean getFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+    public void changeFlag(){
+        flag = !flag;
+    }
 
     public String getNum() {
         return num;

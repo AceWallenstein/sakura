@@ -13,10 +13,10 @@ import com.example.sakura.R;
 import com.example.sakura.adapter.ComicDirAdapter;
 import com.example.sakura.base.BaseAdapter;
 import com.example.sakura.base.BaseMvpActivity;
-import com.example.sakura.data.bean.ComicDetail;
-import com.example.sakura.data.bean.ComicDir;
 import com.example.sakura.common.Constant;
 import com.example.sakura.contact.ComicContract;
+import com.example.sakura.data.bean.ComicDetail;
+import com.example.sakura.data.bean.ComicDir;
 import com.example.sakura.presenter.ComicPresenter;
 
 public class ComicActivity extends BaseMvpActivity<ComicPresenter> implements ComicContract.V {
@@ -35,6 +35,7 @@ public class ComicActivity extends BaseMvpActivity<ComicPresenter> implements Co
 
     @Override
     protected void initView() {
+
         rvDir = findViewById(R.id.rv_dir);
         adapter = new ComicDirAdapter(this);
         mIvComicPic = findViewById(R.id.iv_comic_pic);
@@ -84,4 +85,5 @@ public class ComicActivity extends BaseMvpActivity<ComicPresenter> implements Co
     public void onError(Throwable e) {
 
     }
+
 }

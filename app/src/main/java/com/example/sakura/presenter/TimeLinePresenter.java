@@ -4,7 +4,6 @@ import com.example.sakura.base.BaseExcept;
 import com.example.sakura.base.BaseObserver;
 import com.example.sakura.base.BasePresenter;
 import com.example.sakura.data.bean.Comic;
-import com.example.sakura.data.resp.ComicInfoResp;
 import com.example.sakura.server.ComicServer;
 import com.example.sakura.ui.fragment.AnimeTimeLineFragment;
 import com.example.sakura.utils.LoggerUtils;

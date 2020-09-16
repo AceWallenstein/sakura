@@ -12,7 +12,7 @@ import java.util.List;
 public abstract class BaseAdapter<T,VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
     protected Context mContext;
     protected List<T> mData = new ArrayList<>();
-    private OnclickListener listener;
+    protected OnclickListener listener;
 
     public void setOnClickListener(OnclickListener listener) {
         this.listener = listener;

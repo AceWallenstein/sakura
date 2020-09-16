@@ -6,16 +6,17 @@ buildscript {
     ext.okhttp3_version = "4.8.1"
     ext.dagger_version = "2.14.1"
     ext.rxlifecycle_version = "4.0.0"
-    ext.recycleview_version="1.1.0"
+    ext.recycleview_version = "1.1.0"
+    ext.permissionsdispatcher_version = "3.3.2"
 
     repositories {
         google()
         jcenter()
-        
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.2'
-        
+
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -25,7 +26,9 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+        maven { url 'https://jitpack.io' }
+
+
     }
 }
 

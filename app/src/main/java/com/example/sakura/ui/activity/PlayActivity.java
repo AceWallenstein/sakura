@@ -1,9 +1,16 @@
 package com.example.sakura.ui.activity;
 
 import android.content.res.Configuration;
+import android.graphics.drawable.BitmapDrawable;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -14,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sakura.R;
 import com.example.sakura.adapter.PlayDirAdapter;
+import com.example.sakura.adapter.PopAdapter;
 import com.example.sakura.base.BaseAdapter;
 import com.example.sakura.base.BaseMvpActivity;
 import com.example.sakura.common.Constant;
@@ -29,6 +37,13 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
     private RecyclerView mRvDir;
     private PlayDirAdapter adapter;
     private ConstraintLayout.LayoutParams layoutParams;
+    private ImageView ivDownload;
+
+
+    private RecyclerView rvPop;
+    private PopAdapter popAdapter;
+    private PopupWindow popupWindow;
+    private ComicInfoResp mComicInfo;
 
 
     @Override
@@ -48,13 +63,55 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
         MediaController mediaController = new MediaController(this);
         mVvPlayer.setMediaController(mediaController);
         mediaController.setMediaPlayer(mVvPlayer);
-
+        ivDownload = findViewById(R.id.iv_download);
 
     }
+
+
 
     @Override
     protected void initListener() {
         mVvPlayer.setOnPreparedListener((mp) -> mVvPlayer.start());
+        ivDownload.setOnClickListener((v) -> {
+            initPopWindow();
+        });
+    }
+    private void initPopWindow() {
+        View view = LayoutInflater.from(this).inflate(R.layout.pop_window, null);
+        rvPop = view.findViewById(R.id.rv_pop);
+        popAdapter = new PopAdapter(this);
+        rvPop.setAdapter(popAdapter);
+        rvPop.setLayoutManager(new GridLayoutManager(this, 4));
+        if (mComicInfo != null) {
+            popAdapter.setData(mComicInfo.getComicInfoList());
+        }
+        TextView tvDownload = view.findViewById(R.id.tv_download);
+        tvDownload.setOnClickListener((v)->{
+            toast(popAdapter.getDownloadList().toString());
+        });
+        popupWindow = new PopupWindow(view,
+                GridView.MarginLayoutParams.MATCH_PARENT, GridView.MarginLayoutParams.WRAP_CONTENT);
+        popupWindow.setAnimationStyle(R.style.Popupwindow);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+        popupWindow.setClippingEnabled(true);
+        Myy(0.5f);
+        popupWindow.setOnDismissListener(() -> {
+            // pop.dismiss(）方法调用时，回调该函数，点击外部时，也会回调该函数
+            Myy(1);
+            popAdapter.clear();
+        });
+    }
+
+    /**
+     *
+     * @param b 透明度窗体
+     */
+    public void Myy(float b) {
+        WindowManager.LayoutParams attributes = getWindow().getAttributes();
+        attributes.alpha = b;
+        getWindow().setAttributes(attributes);
     }
 
     @Override
@@ -73,6 +130,7 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
 
     @Override
     public void onResult(ComicInfoResp t) {
+        mComicInfo = t;
         mVvPlayer.setVideoPath(t.getCurrentNumPath());
         adapter.setData(t.getComicInfoList());
         adapter.setOnClickListener(new BaseAdapter.OnclickListener<ComicInfo>() {
@@ -89,6 +147,15 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
     @Override
     public void onError(Throwable e) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (popupWindow.isShowing()) {
+            popupWindow.dismiss();
+            return;
+        }
+        super.onBackPressed();
     }
 
     @Override
@@ -111,7 +178,7 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
             WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
             android.view.Display display = wm.getDefaultDisplay();
             int width_01 = display.getWidth();
-            int height_01 = width_01*9/16;//视频比例。
+            int height_01 = width_01 * 9 / 16;//视频比例。
             layoutParams.width = width_01;
             layoutParams.height = height_01;//恢复控件的高强
             mTvTitle.setVisibility(View.VISIBLE);
@@ -135,8 +202,10 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
         layoutParams.height = height_01;//设置 当控件的高强
         layoutParams.width = width_01;
         mVvPlayer.setLayoutParams(layoutParams); // 使设置好的布局参数应用到控件
-        mTvTitle.postDelayed(()->{
-           mTvTitle.setVisibility(View.GONE);
-        },1000);
+        mTvTitle.postDelayed(() -> {
+            mTvTitle.setVisibility(View.GONE);
+        }, 1000);
     }
+
+
 }

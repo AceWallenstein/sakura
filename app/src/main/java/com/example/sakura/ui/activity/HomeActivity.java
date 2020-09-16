@@ -1,32 +1,27 @@
 package com.example.sakura.ui.activity;
 
-import android.content.Intent;
+import android.Manifest;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.sakura.R;
 import com.example.sakura.base.BaseMvpActivity;
 import com.example.sakura.base.BasePresenter;
-import com.example.sakura.common.Constant;
 import com.example.sakura.ui.fragment.AnimeTimeLineFragment;
 import com.example.sakura.ui.fragment.HomeFragment;
 import com.example.sakura.ui.fragment.MineFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
-
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class HomeActivity extends BaseMvpActivity implements BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
 
@@ -48,6 +43,7 @@ public class HomeActivity extends BaseMvpActivity implements BottomNavigationVie
 
     @Override
     protected void initView() {
+        requestPer();
         mSearch = findViewById(R.id.search);
         mSetting = findViewById(R.id.setting);
         navBottom = findViewById(R.id.nav_bottom);
@@ -85,21 +81,6 @@ public class HomeActivity extends BaseMvpActivity implements BottomNavigationVie
     @Override
     protected void initListener() {
         super.initListener();
-        mSearch.setOnKeyListener((v, keyCode, event) -> {
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
-                // 执行发送消息等操作
-                if (TextUtils.isEmpty(mSearch.getText().toString()))
-                    return false;
-                Intent intent = new Intent(HomeActivity.this, SearchActivity.class);
-                intent.putExtra(Constant.SEARCH_WORD, mSearch.getText()
-                        .toString());
-                startActivity(intent);
-                return true;
-            }
-            return false;
-
-        });
-        mSetting.setOnClickListener((v) -> toast("进入设置"));
         navBottom.setOnNavigationItemSelectedListener(this);
 
         vpContent.addOnPageChangeListener(this);
@@ -156,6 +137,18 @@ public class HomeActivity extends BaseMvpActivity implements BottomNavigationVie
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    private void requestPer() {//RxPermissions获取权限
+        RxPermissions permissions = new RxPermissions(this);
+        permissions.request(Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe((isGranted)->{
+                    if(isGranted){
+                       toast("允许了权限！");
+                    }else {
+                        toast("未授权权限，部分功能不能使用！");
+                    }
+        });
     }
 }
 

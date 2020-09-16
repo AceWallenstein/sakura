@@ -17,6 +17,7 @@ import com.example.sakura.presenter.TimeLinePresenter;
 import com.example.sakura.ui.activity.ComicActivity;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class AnimeTimeLineFragment extends BaseMvpFragment<TimeLinePresenter> implements TimelineContract.V, TabLayout.OnTabSelectedListener {
@@ -25,6 +26,10 @@ public class AnimeTimeLineFragment extends BaseMvpFragment<TimeLinePresenter> im
     private List<List<Comic>> result;
     private RecyclerView rvComicContent;
     private TimelineAdapter adapter;
+    //当前星期几 1-7 分别表示 天 一 二三四五六
+    private int theWeekday = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+    ;
+    private int position;
 
     @Override
     protected int layoutId() {
@@ -44,13 +49,24 @@ public class AnimeTimeLineFragment extends BaseMvpFragment<TimeLinePresenter> im
         adapter = new TimelineAdapter(mActivity);
         rvComicContent.setAdapter(adapter);
 
+
     }
 
     @Override
     protected void initData() {
         mPresenter.getTimeLineInfo();
-
+        initCurrentComicData();
     }
+
+    //根据当前时间显示当天的番剧
+    private void initCurrentComicData() {
+        position = theWeekday - 2;
+        if (position < 0) {
+            position = 6;
+        }
+        tabTimeline.getTabAt(position).select();
+    }
+
 
     @Override
     protected void initListener() {
@@ -74,7 +90,7 @@ public class AnimeTimeLineFragment extends BaseMvpFragment<TimeLinePresenter> im
     @Override
     public void onResult(List<List<Comic>> t) {
         result = t;
-        adapter.setData(result.get(0));
+        adapter.setData(result.get(position));
     }
 
     @Override
@@ -85,32 +101,8 @@ public class AnimeTimeLineFragment extends BaseMvpFragment<TimeLinePresenter> im
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         if (result != null && result.size() > 0) {
-            switch (tab.getPosition()) {
-                case 0:
-                    adapter.setData(result.get(0));
-                    break;
-                case 1:
-                    adapter.setData(result.get(1));
-                    break;
-                case 2:
-                    adapter.setData(result.get(2));
-                    break;
-                case 3:
-                    adapter.setData(result.get(3));
-                    break;
-                case 4:
-                    adapter.setData(result.get(4));
-                    break;
-                case 5:
-                    adapter.setData(result.get(5));
-                    break;
-                case 6:
-                    adapter.setData(result.get(6));
-                    break;
-                case 7:
-                    adapter.setData(result.get(7));
-                    break;
-            }
+            adapter.setData(result.get(tab.getPosition()));
+
         }
     }
 
