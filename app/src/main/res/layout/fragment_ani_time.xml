@@ -4,6 +4,11 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <com.example.sakura.widget.CommonHeaderBar
+        app:isShowBack="false"
+        app:titleText="每日番剧"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_timeline"

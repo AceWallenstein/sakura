@@ -1,5 +1,6 @@
 package com.example.sakura.data.bean;
 //动漫详情页目录
+//href是网页连接。
 public class ComicDir {
     private String num;
     private String href;

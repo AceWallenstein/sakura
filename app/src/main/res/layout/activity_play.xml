@@ -7,6 +7,9 @@
     android:orientation="vertical">
 
     <TextView
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:drawableLeft="@mipmap/head_bar_back"
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

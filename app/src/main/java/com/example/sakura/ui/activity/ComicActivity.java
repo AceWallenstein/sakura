@@ -25,6 +25,7 @@ public class ComicActivity extends BaseMvpActivity<ComicPresenter> implements Co
     private TextView mTvName;
     private TextView mTvDesc;
     private RecyclerView rvDir;
+    private TextView reverse;
 
     private ComicDirAdapter adapter;
 
@@ -41,8 +42,17 @@ public class ComicActivity extends BaseMvpActivity<ComicPresenter> implements Co
         mIvComicPic = findViewById(R.id.iv_comic_pic);
         mTvName = findViewById(R.id.tv_name);
         mTvDesc = findViewById(R.id.tv_desc);
+        reverse = findViewById(R.id.reverse);
         rvDir.setAdapter(adapter);
         rvDir.setLayoutManager(new GridLayoutManager(this,4));
+    }
+
+    @Override
+    protected void initListener() {
+        super.initListener();
+        reverse.setOnClickListener((v)->{
+            adapter.reverse();
+        });
     }
 
     @Override
@@ -63,6 +73,7 @@ public class ComicActivity extends BaseMvpActivity<ComicPresenter> implements Co
             mTvDesc.setText(comicDetail.getDesc());
             Glide.with(this).load(comicDetail.getImgUrl()).placeholder(R.drawable.outman).into(mIvComicPic);
             adapter.setData(comicDetail.getDirs());
+            reverse.setEnabled(true);
         }
         adapter.setOnClickListener(new BaseAdapter.OnclickListener<ComicDir>() {
             @Override

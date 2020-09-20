@@ -11,11 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.example.sakura.R;
 import com.example.sakura.base.BaseAdapter;
 import com.example.sakura.data.bean.ComicDetail;
-import com.example.sakura.utils.TransformationUtils;
+
+import java.util.List;
 
 public class SearchAdapter extends BaseAdapter<ComicDetail, SearchAdapter.VH> {
 
@@ -37,6 +37,17 @@ public class SearchAdapter extends BaseAdapter<ComicDetail, SearchAdapter.VH> {
         Glide.with(mContext).load(mData.get(position).getImgUrl()).
         placeholder(R.drawable.a).into(holder.mIvComicPic);
 
+    }
+
+    @Override
+    public void setData(List<ComicDetail> data) {
+        mData.clear();
+        super.setData(data);
+    }
+
+    public void clear() {
+        mData.clear();
+        notifyDataSetChanged();
     }
 
     class VH extends RecyclerView.ViewHolder {

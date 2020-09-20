@@ -55,8 +55,9 @@ public class AnimeTimeLineFragment extends BaseMvpFragment<TimeLinePresenter> im
     @Override
     protected void initData() {
         mPresenter.getTimeLineInfo();
-        initCurrentComicData();
+
     }
+
 
     //根据当前时间显示当天的番剧
     private void initCurrentComicData() {
@@ -91,6 +92,7 @@ public class AnimeTimeLineFragment extends BaseMvpFragment<TimeLinePresenter> im
     public void onResult(List<List<Comic>> t) {
         result = t;
         adapter.setData(result.get(position));
+        initCurrentComicData();
     }
 
     @Override

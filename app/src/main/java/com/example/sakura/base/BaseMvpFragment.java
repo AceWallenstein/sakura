@@ -1,6 +1,5 @@
 package com.example.sakura.base;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +25,7 @@ public abstract class BaseMvpFragment<P extends BasePresenter> extends BaseFragm
             mPresenter.attachView(this);
         }
         init(view);
-        isPrepare = true;
+
         return view;
 
     }
@@ -35,28 +34,28 @@ public abstract class BaseMvpFragment<P extends BasePresenter> extends BaseFragm
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initData();
+        isPrepare = true;
+        lazyLoad();
         initListener();
     }
 
     public void lazyLoad() {
-        if (!isVisible || isPrepare || !isLoaded)
-            return;
-        onLazyLoad();
-        isLoaded = true;
+        if (getUserVisibleHint() && isPrepare && !isLoaded) {
+            onLazyLoad();
+            isLoaded = true;
+
+        }
     }
 
     public void onLazyLoad() {
 
     }
 
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            isVisible = true;
-        } else {
-            isVisible = false;
-        }
+        lazyLoad();
     }
 
     @Override

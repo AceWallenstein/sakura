@@ -34,35 +34,45 @@ public class SearchServer {
     private Connection conn;
 
     @SuppressLint("CheckResult")
-    public void search(String searchword, Observer< List<ComicDetail>> observer) {
+    public void search(String searchword, Observer<List<ComicDetail>> observer) {
         try {
             searchword = URLEncoder.encode(searchword, "GBK");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+            observer.onError(e);
         }
         RetrofitUtil.bindWithInterceptor(Constant.BASE_URL, new HeaderInterceptor()).create(SearchInfo.class).search(searchword)
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(new Function<ResponseBody, Observable<List<ComicDetail>>>() {
                     @Override
-                    public Observable<List<ComicDetail>> apply(ResponseBody body) throws Exception {
-                        Document searchDoc = Jsoup.parse(body.string());
-                        Element picsEle = searchDoc.select("div.pics").get(0);
+                    public Observable<List<ComicDetail>> apply(ResponseBody body) {
+                        Element picsEle = null;
                         List<ComicDetail> searchList = new ArrayList<>();
-                        for (Element li : picsEle.child(0).children()) {
-                            String title = li.child(1).child(0).attr("title");
-                            LoggerUtils.d(TAG, "apply: "+title);
-                            String imgSrc = li.child(0).child(0).attr("src");
-                            String info = li.child(4).text();
-                            String href = li.child(0).attr("href");
-                            ComicDetail comicDetail = new ComicDetail(title, imgSrc, info);
-                            comicDetail.setHref(href);
-                            searchList.add(comicDetail);
+                        try {
+                            Document searchDoc = Jsoup.parse(body.string());
+                            picsEle = searchDoc.select("div.pics").get(0);
+                            for (Element li : picsEle.child(0).children()) {
+                                String title = li.child(1).child(0).attr("title");
+                                LoggerUtils.d(TAG, "apply: " + title);
+                                String imgSrc = li.child(0).child(0).attr("src");
+                                String info = li.child(4).text();
+                                String href = li.child(0).attr("href");
+                                ComicDetail comicDetail = new ComicDetail(title, imgSrc, info);
+                                comicDetail.setHref(href);
+                                searchList.add(comicDetail);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Observable.error(e);
+                        }catch (Exception e){
+                            e.printStackTrace();
+                            Observable.error(e);
                         }
+
                         return Observable.just(searchList);
                     }
                 })
                 .subscribeOn(Schedulers.io()).subscribe(observer);
-
 
     }
 

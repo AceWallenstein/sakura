@@ -7,6 +7,18 @@
     android:background="@color/white">
     <TextView
         android:layout_marginTop="16dp"
+        android:id="@+id/tv_to_download"
+        android:textColor="@color/DodgerBlue"
+        android:textSize="15sp"
+        android:text="查看下载"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp"
+        />
+    <TextView
+        android:layout_marginTop="16dp"
         android:id="@+id/tv_download"
         android:textColor="@color/DodgerBlue"
         android:textSize="15sp"
@@ -18,7 +30,7 @@
         android:layout_marginEnd="20dp"
       />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.example.sakura.widget.LimitHeightRecyclerView
         android:id="@+id/rv_pop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -11,6 +11,7 @@ public class ComicDetail {
     //详情页面url
     private String href;
 
+    private List<ComicDir> dirs;
     public String getHref() {
         return href;
     }
@@ -19,7 +20,6 @@ public class ComicDetail {
         this.href = href;
     }
 
-    private List<ComicDir> dirs;
 
     public String getTitle() {
         return title;

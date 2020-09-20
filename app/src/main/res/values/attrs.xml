@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-   <string-array name="week">
-       <item>周一</item>
-       <item>周二</item>
-       <item>周三</item>
-       <item>周四</item>
-       <item>周五</item>
-       <item>周六</item>
-       <item>周日</item>
-   </string-array>
-    
+    <string-array name="week">
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+        <item>周日</item>
+    </string-array>
+
+    <declare-styleable name="HeaderBar">
+        <attr name="isShowBack" format="boolean" />
+        <attr name="titleText" format="string" />
+    </declare-styleable>
 </resources>

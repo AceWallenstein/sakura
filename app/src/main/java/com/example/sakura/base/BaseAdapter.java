@@ -18,8 +18,8 @@ public abstract class BaseAdapter<T,VH extends RecyclerView.ViewHolder> extends 
         this.listener = listener;
     }
 
-    public void setData(List<T> mData) {
-        this.mData = mData;
+    public void setData(List<T> data) {
+        this.mData = data;
         notifyDataSetChanged();
     }
 

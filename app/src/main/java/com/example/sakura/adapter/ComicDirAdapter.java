@@ -14,6 +14,8 @@ import com.example.sakura.R;
 import com.example.sakura.base.BaseAdapter;
 import com.example.sakura.data.bean.ComicDir;
 
+import java.util.Collections;
+
 public class ComicDirAdapter extends BaseAdapter<ComicDir, ComicDirAdapter.VH> {
 
     public ComicDirAdapter(Context context) {
@@ -30,6 +32,13 @@ public class ComicDirAdapter extends BaseAdapter<ComicDir, ComicDirAdapter.VH> {
     public void onBindViewHolder(@NonNull VH holder, int position) {
         super.onBindViewHolder(holder, position);
         holder.tvEpisode.setText(mData.get(position).getNum());
+    }
+
+    public void reverse() {
+        if(mData!=null&&mData.size()>0){
+            Collections.reverse(mData);
+            notifyDataSetChanged();
+        }
     }
 
     class VH extends RecyclerView.ViewHolder {

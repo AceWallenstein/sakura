@@ -14,7 +14,9 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.sakura.R;
 import com.example.sakura.base.BaseMvpActivity;
 import com.example.sakura.base.BasePresenter;
+import com.example.sakura.common.Constant;
 import com.example.sakura.ui.fragment.AnimeTimeLineFragment;
+import com.example.sakura.ui.fragment.DownloadFragment;
 import com.example.sakura.ui.fragment.HomeFragment;
 import com.example.sakura.ui.fragment.MineFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -53,11 +55,21 @@ public class HomeActivity extends BaseMvpActivity implements BottomNavigationVie
         vpContent.setCurrentItem(0);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(getIntent().getIntExtra(Constant.TODOWNLOADFRAGMENT,0)==1){
+            vpContent.setCurrentItem(2);
+            navBottom.setSelectedItemId(R.id.menu_bookshelf);
+
+        }
+    }
+
     private void initFragments() {
         mFlist = new ArrayList<>();
         mFlist.add(new HomeFragment());
         mFlist.add(new AnimeTimeLineFragment());
-        mFlist.add(new HomeFragment());
+        mFlist.add(new DownloadFragment());
         mFlist.add(new MineFragment());
     }
 
@@ -144,7 +156,6 @@ public class HomeActivity extends BaseMvpActivity implements BottomNavigationVie
         permissions.request(Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe((isGranted)->{
                     if(isGranted){
-                       toast("允许了权限！");
                     }else {
                         toast("未授权权限，部分功能不能使用！");
                     }

@@ -48,6 +48,8 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
         comicContainer = view.findViewById(R.id.content_comic);
         mSearch = view.findViewById(R.id.search);
+        mSearch.setFocusableInTouchMode(false);//不可编辑
+        mSearch.setKeyListener(null);//不可粘贴，长按不会弹出粘贴框
         mSetting = view.findViewById(R.id.setting);
 
     }
@@ -59,26 +61,28 @@ public class HomeFragment extends BaseMvpFragment<HomePresenter> implements Home
 
     @Override
     public void onLazyLoad() {
-        mPresenter.getComic();
+
     }
 
     @Override
     public void initListener() {
-
-        mSearch.setOnKeyListener((v, keyCode, event) -> {
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
-                // 执行发送消息等操作
-                if (TextUtils.isEmpty(mSearch.getText().toString()))
-                    return false;
-                Intent intent = new Intent(mActivity, SearchActivity.class);
-                intent.putExtra(Constant.SEARCH_WORD, mSearch.getText()
-                        .toString());
-                startActivity(intent);
-                return true;
-            }
-            return false;
-
+        mSearch.setOnClickListener((v)->{
+            startActivity(new Intent(mActivity,SearchActivity.class));
         });
+//        mSearch.setOnKeyListener((v, keyCode, event) -> {
+//            if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN) {
+//                // 执行发送消息等操作
+//                if (TextUtils.isEmpty(mSearch.getText().toString()))
+//                    return false;
+//                Intent intent = new Intent(mActivity, SearchActivity.class);
+//                intent.putExtra(Constant.SEARCH_WORD, mSearch.getText()
+//                        .toString());
+//                startActivity(intent);
+//                return true;
+//            }
+////            return false;
+//
+//        });
         mSetting.setOnClickListener((v) -> toast("进入设置"));
     }
 

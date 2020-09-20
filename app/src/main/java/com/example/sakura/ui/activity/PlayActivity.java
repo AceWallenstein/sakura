@@ -1,7 +1,11 @@
 package com.example.sakura.ui.activity;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Environment;
+import android.os.Parcelable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +17,7 @@ import android.widget.MediaController;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -29,7 +34,13 @@ import com.example.sakura.contact.PlayContract;
 import com.example.sakura.data.bean.ComicInfo;
 import com.example.sakura.presenter.PlayPresenter;
 import com.example.sakura.data.resp.ComicInfoResp;
+import com.example.sakura.server.DownloadServer;
+import com.example.sakura.utils.DrawableUtil;
+import com.example.sakura.utils.SharedPreferencesUtil;
 import com.example.sakura.widget.CustomVideoView;
+import com.example.sakura.widget.LimitHeightRecyclerView;
+
+import java.util.ArrayList;
 
 public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements PlayContract.V {
     private TextView mTvTitle;
@@ -40,7 +51,7 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
     private ImageView ivDownload;
 
 
-    private RecyclerView rvPop;
+    private LimitHeightRecyclerView rvPop;
     private PopAdapter popAdapter;
     private PopupWindow popupWindow;
     private ComicInfoResp mComicInfo;
@@ -75,6 +86,17 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
         ivDownload.setOnClickListener((v) -> {
             initPopWindow();
         });
+        new DrawableUtil(mTvTitle, new DrawableUtil.OnDrawableListener() {
+            @Override
+            public void onLeft(View v, Drawable left) {
+                finish();
+            }
+
+            @Override
+            public void onRight(View v, Drawable right) {
+
+            }
+        });
     }
     private void initPopWindow() {
         View view = LayoutInflater.from(this).inflate(R.layout.pop_window, null);
@@ -86,8 +108,19 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
             popAdapter.setData(mComicInfo.getComicInfoList());
         }
         TextView tvDownload = view.findViewById(R.id.tv_download);
+        TextView tvToDownload = view.findViewById(R.id.tv_to_download);
         tvDownload.setOnClickListener((v)->{
-            toast(popAdapter.getDownloadList().toString());
+                toast("下载功能暂不可用！");
+//            Intent intent = new Intent(this, DownloadServer.class);
+//            intent.putExtra("comicName",getIntent().getStringExtra(Constant.COMIC_TITLE));
+//            intent.putParcelableArrayListExtra("downloadData", (ArrayList<? extends Parcelable>) popAdapter.getDownloadList());
+//            intent.setAction("download");
+//            startService(intent);
+        });
+        tvToDownload.setOnClickListener((v)->{
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.putExtra(Constant.TODOWNLOADFRAGMENT,1);
+            startActivity(intent);
         });
         popupWindow = new PopupWindow(view,
                 GridView.MarginLayoutParams.MATCH_PARENT, GridView.MarginLayoutParams.WRAP_CONTENT);
@@ -132,6 +165,9 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
     public void onResult(ComicInfoResp t) {
         mComicInfo = t;
         mVvPlayer.setVideoPath(t.getCurrentNumPath());
+        int currentPosition = (int) SharedPreferencesUtil.getData(mComicInfo.getCurrentNumPath(),0);
+        if(currentPosition!=0)
+            mVvPlayer.seekTo(currentPosition);
         adapter.setData(t.getComicInfoList());
         adapter.setOnClickListener(new BaseAdapter.OnclickListener<ComicInfo>() {
             @Override
@@ -151,11 +187,26 @@ public class PlayActivity extends BaseMvpActivity<PlayPresenter> implements Play
 
     @Override
     public void onBackPressed() {
-        if (popupWindow.isShowing()) {
-            popupWindow.dismiss();
-            return;
+        if (popupWindow != null) {
+            if (popupWindow.isShowing()) {
+                popupWindow.dismiss();
+                return;
+        }
         }
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        int currentPosition = mVvPlayer.getCurrentPosition();
+        SharedPreferencesUtil.putData(mComicInfo.getCurrentNumPath(),currentPosition);
+        mVvPlayer.pause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     @Override

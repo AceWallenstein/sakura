@@ -13,27 +13,31 @@
         android:layout_marginStart="5dp"
         android:src="@drawable/dot_icon" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="38dp"
         android:layout_marginStart="20dp"
-        android:layout_toEndOf="@id/icon"
         android:ellipsize="end"
-        android:gravity="center"
         android:singleLine="true"
         android:textSize="18sp"
         tools:text="刀剑神域第三季" />
 
     <TextView
         android:id="@+id/tv_num"
+        android:layout_gravity="end"
         android:layout_width="wrap_content"
         android:layout_height="38dp"
-        android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
         android:ellipsize="end"
         android:gravity="center"
         android:singleLine="true"
         android:textSize="15sp"
         tools:text="第46集" />
+    </LinearLayout>
 </RelativeLayout>
