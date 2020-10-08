@@ -9,10 +9,10 @@ public class Comic {
     //最新动漫级数
     private String episode;
 
-    public Comic(String title, String url, String episode) {
+    public Comic(String title, String url, String imgUrl) {
         this.title = title;
         this.url = url;
-        this.episode = episode;
+        this.imgUrl = imgUrl;
     }
 
     public Comic(String title, String url, String imgUrl, String episode) {

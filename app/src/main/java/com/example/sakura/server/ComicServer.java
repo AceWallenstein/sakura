@@ -6,11 +6,13 @@ import com.example.sakura.base.BaseExcept;
 import com.example.sakura.base.BaseObserver;
 import com.example.sakura.data.bean.CategoryBean;
 import com.example.sakura.data.bean.Comic;
+import com.example.sakura.data.bean.ComicDTO;
 import com.example.sakura.data.bean.ComicDetail;
 import com.example.sakura.data.bean.ComicDir;
 import com.example.sakura.data.bean.ComicInfo;
 import com.example.sakura.common.Constant;
 import com.example.sakura.data.resp.ComicInfoResp;
+import com.example.sakura.utils.LoggerUtils;
 
 import org.json.JSONArray;
 import org.jsoup.Connection;
@@ -57,10 +59,25 @@ public class ComicServer {
      */
     public void getComic(Observer observer) {
         List<CategoryBean> beans = new ArrayList<>();
-        Observable.create((ObservableEmitter<List<CategoryBean>> emitter) -> {
+        Observable.create((ObservableEmitter<ComicDTO> emitter) -> {
             try {
                 if (doc == null) {
                     doc = getDoc(Constant.BASE_URL);
+                }
+                Element heroWrap = doc.select("div.foucs").get(0).child(0);
+                LoggerUtils.d(TAG, "heroWrap"+heroWrap);
+                List<Comic> bannerList = new ArrayList<>();
+                for (Element ul:
+                doc.select("div.foucs").get(0).child(0).children()) {
+                    for (Element li:
+                    ul.children()) {
+                        String title = li.child(0).attr("title");
+                        String href = li.child(0).attr("href");
+                        String imgSrc = li.child(0).child(0).attr("src");
+                        Comic comic = new Comic(title, href, imgSrc);
+                        bannerList.add(comic);
+                        LoggerUtils.d(TAG, "getComic:biaoti"+title);
+                    }
                 }
                 Elements ele = doc.select("div#contrainer");
                 int i = 0;
@@ -86,7 +103,10 @@ public class ComicServer {
                     i++;
                     beans.add(categoryBean);
                 }
-                emitter.onNext(beans);
+                ComicDTO comicDTO = new ComicDTO();
+                comicDTO.setBeans(beans);
+                comicDTO.setBannerList(bannerList);
+                emitter.onNext(comicDTO);
             } catch (IOException e) {
                 e.printStackTrace();
                 emitter.onError(e);

@@ -15,6 +15,11 @@
             android:id="@+id/content_comic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical" >
+            <com.youth.banner.Banner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/banner"/>
+        </LinearLayout>
     </ScrollView>
 </androidx.appcompat.widget.LinearLayoutCompat>
