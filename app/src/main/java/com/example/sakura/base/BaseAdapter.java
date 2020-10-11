@@ -13,9 +13,13 @@ public abstract class BaseAdapter<T,VH extends RecyclerView.ViewHolder> extends 
     protected Context mContext;
     protected List<T> mData = new ArrayList<>();
     protected OnclickListener listener;
+    protected OnLongClickListener onLongClickListener;
 
     public void setOnClickListener(OnclickListener listener) {
         this.listener = listener;
+    }
+    public void setOnLongClickListener(OnLongClickListener onLongClickListener) {
+        this.onLongClickListener = onLongClickListener;
     }
 
     public void setData(List<T> data) {
@@ -34,6 +38,10 @@ public abstract class BaseAdapter<T,VH extends RecyclerView.ViewHolder> extends 
                 listener.onClick(v,mData.get(position));
             }
         });
+        holder.itemView.setOnLongClickListener((v)->{
+            onLongClickListener.onLongClick(v,mData.get(position));
+            return true;
+        });
     }
 
     @Override
@@ -47,5 +55,8 @@ public abstract class BaseAdapter<T,VH extends RecyclerView.ViewHolder> extends 
     }
     public interface OnclickListener<T> {
        void onClick(View v,T t);
+    }
+    public interface OnLongClickListener<T>{
+        void onLongClick(View v,T t);
     }
 }

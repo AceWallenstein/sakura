@@ -134,6 +134,7 @@ public class ComicServer {
                 String info = pageDoc.select("div.info").text();
                 ComicDetail comicDetail = new ComicDetail(title, imgSrc, info);
                 //目录
+                comicDetail.setHref(pageUrl);
                 Element dirEle = pageDoc.select("div#play_0").get(0);
                 List<ComicDir> dirs = new ArrayList<>();
                 for (Element a :
